@@ -1,7 +1,11 @@
+import javax.swing.text.html.Option;
+import java.util.Optional;
+import java.util.OptionalInt;
+
 public class PersonBuilder{
     private String name;
     private String surname;
-    private int age;
+    private OptionalInt age;
     private String city;
     public PersonBuilder setName(String name) {
         if(!name.matches("[a-zA-Zа-яА-Я]+")) {
@@ -18,13 +22,17 @@ public class PersonBuilder{
         return this;
     }
     public PersonBuilder setAge(int age) {
-        if (age<0) {
-            throw new IllegalArgumentException("Возраст не может быть < 0");
+        if (OptionalInt.of(age).isPresent()) {
+            if (OptionalInt.of(age).getAsInt()<0) {
+                throw new IllegalArgumentException("Возраст не может быть < 0");
+            }
         }
-        if (age > 116) {
-            throw new IllegalArgumentException("Мне кажется, что вы не можете быть старше Дзироэмона Кимуры прожившего (116 лет и 54 дня)");
+        if (OptionalInt.of(age).isPresent()) {
+            if (OptionalInt.of(age).getAsInt() > 116) {
+                throw new IllegalArgumentException("Мне кажется, что вы не можете быть старше Дзироэмона Кимуры прожившего (116 лет и 54 дня)");
+            }
         }
-        this.age = age;
+        this.age = OptionalInt.of(age);
         return this;
     }
     public PersonBuilder setAddress(String city) {

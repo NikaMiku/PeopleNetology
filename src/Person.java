@@ -1,23 +1,25 @@
+import java.util.Optional;
 import java.util.OptionalInt;
 
 public class Person {
 
     protected final String name;
     protected final String surname;
-    protected int age;
+    protected OptionalInt age;
     protected String city;
 
     public Person(String name, String surname) {
         this.name = name;
         this.surname = surname;
+        this.age = OptionalInt.empty();
     }
 
-    public Person(String name, String surname, int age) {
+    public Person(String name, String surname, OptionalInt age) {
         this.name = name;
         this.surname = surname;
         this.age = age;
     }
-    public Person(String name, String surname, int age, String city) {
+    public Person(String name, String surname, OptionalInt age, String city) {
         this.name = name;
         this.surname = surname;
         this.age = age;
@@ -25,11 +27,7 @@ public class Person {
     }
 
     public boolean hasAge() {
-        if (getAge() != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return age.isPresent();
     }
     public boolean hasAddress() {
         if(city!=null) {
@@ -46,12 +44,7 @@ public class Person {
         return surname;
     }
     public OptionalInt getAge() {
-        if(OptionalInt.of(age) != null) {
-            return OptionalInt.of(age);
-        } else {
-            return OptionalInt.empty();
-        }
-
+        return age;
     }
     public String getAddress() {
         return city;
@@ -62,30 +55,29 @@ public class Person {
     }
     public void happyBirthday() {
         if(hasAge()) {
-            age++;
+            this.age = OptionalInt.of(this.age.getAsInt() + 1);
         }
     }
     public PersonBuilder newChildBuilder() {
         return new PersonBuilder()
                 .setSurname(this.surname)
-                .setAddress(this.city)
-                .setAge(0);
+                .setAddress(this.city);
     }
     @Override
     public String toString() {
-        return "Person {" +
-                "name = " + name + '\'' +
-                " surname = " + surname + '\'' +
-                " age = " + age + '\'' +
-                " city = " + city + '\'' +
-                '}';
+            return "Person {" +
+                    "name = " + name + '\'' +
+                    " surname = " + surname + '\'' +
+                    " age = " + age + '\'' +
+                    " city = " + city + '\'' +
+                    '}';
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
-        result = 31 * result + age;
+        result = 31 * result + age.getAsInt();
         result = 31 * result + (city != null ? city.hashCode() : 0);
         return result;
     }
