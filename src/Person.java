@@ -1,5 +1,5 @@
-import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.Random;
 
 public class Person {
 
@@ -14,15 +14,15 @@ public class Person {
         this.age = OptionalInt.empty();
     }
 
-    public Person(String name, String surname, OptionalInt age) {
+    public Person(String name, String surname, int age) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.age = OptionalInt.of(age);
     }
-    public Person(String name, String surname, OptionalInt age, String city) {
+    public Person(String name, String surname, int age, String city) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.age = OptionalInt.of(age);
         this.city = city;
     }
 
@@ -58,11 +58,17 @@ public class Person {
             this.age = OptionalInt.of(this.age.getAsInt() + 1);
         }
     }
+    public int RandomChildAge() {
+        Random random = new Random();
+        return random.nextInt((this.age.getAsInt() - 18) + 1);
+    }
     public PersonBuilder newChildBuilder() {
         return new PersonBuilder()
                 .setSurname(this.surname)
-                .setAddress(this.city);
+                .setAddress(this.city)
+                .setAge(RandomChildAge());
     }
+
     @Override
     public String toString() {
             return "Person {" +

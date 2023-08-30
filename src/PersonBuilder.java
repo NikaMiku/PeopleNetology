@@ -1,11 +1,9 @@
-import javax.swing.text.html.Option;
-import java.util.Optional;
 import java.util.OptionalInt;
 
 public class PersonBuilder{
     private String name;
     private String surname;
-    private OptionalInt age;
+    private int age;
     private String city;
     public PersonBuilder setName(String name) {
         if(!name.matches("[a-zA-Zа-€ј-я]+")) {
@@ -32,7 +30,7 @@ public class PersonBuilder{
                 throw new IllegalArgumentException("ћне кажетс€, что вы не можете быть старше ƒзироэмона  имуры прожившего (116 лет и 54 дн€)");
             }
         }
-        this.age = OptionalInt.of(age);
+        this.age = age;
         return this;
     }
     public PersonBuilder setAddress(String city) {
